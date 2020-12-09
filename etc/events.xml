@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="shipcloud_converter_order_to_shipment_after">
+        <observer name="add_pickup_to_go_shipment" instance="MageSuite\Shipcloud\Observer\AddPickupToGoShipment" />
+    </event>
+
+    <event name="shipcloud_shipment_label_error_notification">
+        <observer name="shipcloud_shipment_error_mail_notification_sender" instance="MageSuite\Shipcloud\Observer\ShipmentErrorMailNotificationSender"/>
+    </event>
+</config>

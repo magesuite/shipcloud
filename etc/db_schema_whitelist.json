@@ -1,0 +1,40 @@
+{
+    "sales_order": {
+        "column": {
+            "shipcloud_status": true
+        },
+        "index": {
+            "SALES_ORDER_SHIPCLOUD_STATUS": true
+        }
+    },
+    "shipcloud_shipment": {
+        "column": {
+            "entity_id": true,
+            "order_id": true,
+            "shipcloud_id": true,
+            "carrier_tracking_no": true,
+            "tracking_url": true,
+            "label_url": true,
+            "price": true,
+            "label_filename": true,
+            "package_number": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "SHIPCLOUD_SHIPMENT_ORDER_ID_SALES_ORDER_ENTITY_ID": true
+        }
+    },
+    "shipcloud_order": {
+        "column": {
+            "order_id": true,
+            "retry_count": true,
+            "updated_at": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "SHIPCLOUD_ORDER_ORDER_ID_SALES_ORDER_ENTITY_ID": true
+        }
+    }
+}

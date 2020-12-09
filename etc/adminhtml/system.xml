@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magesuite" translate="label" sortOrder="300">
+            <label>MageSuite</label>
+        </tab>
+        <section id="trans_email" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Store Email Addresses</label>
+            <tab>general</tab>
+            <resource>Magento_Config::trans_email</resource>
+            <group id="shipcloud_email" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Shipcloud Notification E-mail</label>
+                <field id="name" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Sender Name</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Email\Sender</backend_model>
+                    <validate>validate-emailSender</validate>
+                </field>
+                <field id="email" translate="label" type="textarea" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Additional Emails</label>
+                    <backend_model>MageSuite\Importer\Config\Backend\Validation\EmailAddresses</backend_model>
+                </field>
+            </group>
+        </section>
+        <section id="shipcloud" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Shipcloud</label>
+            <tab>magesuite</tab>
+            <resource>MageSuite_Shipcloud::config_shipcloud</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>General</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>\Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="api_key" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API Key</label>
+                    <frontend_model>MageSuite\Shipcloud\Block\Adminhtml\Config\System\Form\Field\ApiKey</frontend_model>
+                    <backend_model>MageSuite\Shipcloud\Model\Config\Backend\ApiKey</backend_model>
+                </field>
+                <field id="export_path" translate="label" type="text" sortOrder="23" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Export Path</label>
+                    <comment><![CDATA[Direct path to export folder. No slash on the end. Example: /var/export.]]></comment>
+                </field>
+                <field id="cron_schedule" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Cron Schedule</label>
+                    <comment>Please type full cron schedule expression, eg. '59 23 * * *'</comment>
+                </field>
+                <field id="debug" translate="label" sortOrder="30" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Debug</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="retry_limit" translate="label" sortOrder="40" type="text" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Retry Limit for Order</label>
+                    <validate>validate-zero-or-greater validate-digits</validate>
+                    <comment>Processing orders X times again after receiving 5xx error from API.</comment>
+                </field>
+                <field id="label_format" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Label Format</label>
+                    <source_model>MageSuite\Shipcloud\Model\Config\Source\LabelFormat</source_model>
+                </field>
+            </group>
+            <group id="origin_address" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Origin Address</label>
+                <field id="company" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Company</label>
+                </field>
+                <field id="care_of" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Care of</label>
+                </field>
+                <field id="firstname" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Firstname</label>
+                </field>
+                <field id="lastname" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Lastname</label>
+                </field>
+                <field id="street" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Street</label>
+                </field>
+                <field id="street_number" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Street Number</label>
+                </field>
+                <field id="postcode" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Postcode</label>
+                </field>
+                <field id="city" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>City</label>
+                </field>
+                <field id="region" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Region</label>
+                </field>
+                <field id="country_id" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Country</label>
+                    <frontend_class>countries</frontend_class>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                </field>
+                <field id="telephone" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Telephone</label>
+                </field>
+            </group>
+            <group id="package" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Package Dimensions</label>
+                <field id="length" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Length</label>
+                    <comment>In centimeters [cm]</comment>
+                </field>
+                <field id="width" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Width</label>
+                    <comment>In centimeters [cm]</comment>
+                </field>
+                <field id="height" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Height</label>
+                    <comment>In centimeters [cm]</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

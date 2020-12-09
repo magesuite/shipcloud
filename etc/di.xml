@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="MageSuite\Shipcloud\Api\Data\UserResponseInterface" type="MageSuite\Shipcloud\Model\UserResponse"/>
+    <preference for="MageSuite\Shipcloud\Api\Data\ShipmentResponseInterface" type="MageSuite\Shipcloud\Model\ShipmentResponse"/>
+    <preference for="MageSuite\Shipcloud\Api\Data\ShipmentInterface" type="MageSuite\Shipcloud\Model\Shipment"/>
+    <preference for="MageSuite\Shipcloud\Api\GetUserInterface" type="MageSuite\Shipcloud\Model\GetUser"/>
+    <preference for="MageSuite\Shipcloud\Api\GetShipmentInterface" type="MageSuite\Shipcloud\Model\GetShipment"/>
+
+    <type name="Magento\Customer\Model\Attribute">
+        <plugin name="set_street_multiline_count" type="MageSuite\Shipcloud\Plugin\Customer\Model\Attribute\SetStreetMultilineCount" sortOrder="10"/>
+    </type>
+
+    <virtualType name="MageSuite\Shipcloud\Model\VirtualLoggerHandler" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/shipcloud.log</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MageSuite\Shipcloud\Model\VirtualLogger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">MageSuite\Shipcloud\Model\VirtualLoggerHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Shipcloud\Shipcloud\Model\GetUser">
+        <arguments>
+            <argument name="logger" xsi:type="object">Shipcloud\Shipcloud\Model\VirtualLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="Shipcloud\Shipcloud\Model\GetShipment">
+        <arguments>
+            <argument name="logger" xsi:type="object">Shipcloud\Shipcloud\Model\VirtualLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="shipcloud_order_view_shipment_grid_data_source" xsi:type="string">Shipcloud\Shipcloud\Model\ResourceModel\Shipment\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Shipcloud\Shipcloud\Model\ResourceModel\Shipment\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">shipcloud_shipment</argument>
+            <argument name="resourceModel" xsi:type="string">Shipcloud\Shipcloud\Model\ResourceModel\Shipment</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Shipcloud\Shipcloud\Model\CarrierList">
+        <arguments>
+            <argument name="carriers" xsi:type="array">
+                <item name="dhl_classic" xsi:type="array">
+                    <item name="code" xsi:type="string">dogma_dhl_classic</item>
+                    <item name="name" xsi:type="string">dhl</item>
+                    <item name="service" xsi:type="string">standard</item>
+                </item>
+                <item name="dpd" xsi:type="array">
+                    <item name="code" xsi:type="string">dogma_dpd</item>
+                    <item name="name" xsi:type="string">dpd</item>
+                    <item name="service" xsi:type="string">standard</item>
+                </item>
+                <item name="dpd_classic" xsi:type="array">
+                    <item name="code" xsi:type="string">dogma_dpd_classic</item>
+                    <item name="name" xsi:type="string">dpd</item>
+                    <item name="service" xsi:type="string">standard</item>
+                </item>
+                <item name="dpd_express" xsi:type="array">
+                    <item name="code" xsi:type="string">dogma_dpd_express</item>
+                    <item name="name" xsi:type="string">dpd</item>
+                    <item name="service" xsi:type="string">one_day</item>
+                </item>
+                <item name="go" xsi:type="array">
+                    <item name="code" xsi:type="string">dogma_eilversand_go</item>
+                    <item name="name" xsi:type="string">go</item>
+                    <item name="service" xsi:type="string">one_day</item>
+                </item>
+                <item name="ups" xsi:type="array">
+                    <item name="code" xsi:type="string">dogma_ups</item>
+                    <item name="name" xsi:type="string">ups</item>
+                    <item name="service" xsi:type="string">standard</item>
+                </item>
+                <item name="tierhotel_dpd_classic" xsi:type="array">
+                    <item name="code" xsi:type="string">tierhotel_dpd_classic</item>
+                    <item name="name" xsi:type="string">dpd</item>
+                    <item name="service" xsi:type="string">standard</item>
+                </item>
+                <item name="m1_onedaydelivery" xsi:type="array">
+                    <item name="code" xsi:type="string">onedaydelivery</item>
+                    <item name="name" xsi:type="string">dpd</item>
+                    <item name="service" xsi:type="string">one_day</item>
+                </item>
+                <item name="m1_express" xsi:type="array">
+                    <item name="code" xsi:type="string">express</item>
+                    <item name="name" xsi:type="string">dpd</item>
+                    <item name="service" xsi:type="string">one_day</item>
+                </item>
+                <item name="m1_standard" xsi:type="array">
+                    <item name="code" xsi:type="string">standard</item>
+                    <item name="name" xsi:type="string">dpd</item>
+                    <item name="service" xsi:type="string">standard</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>
