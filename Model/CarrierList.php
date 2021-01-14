@@ -12,7 +12,7 @@ class CarrierList
     /**
      * @var Carrier[]
      */
-    protected $carriers;
+    protected $carriers = [];
 
     public function __construct(
         \MageSuite\Shipcloud\Model\CarrierFactory $carrierFactory,
@@ -32,7 +32,7 @@ class CarrierList
      * @return \MageSuite\Shipcloud\Model\Product\Export\Column|null
      */
     public function getOrderCarrier(\Magento\Sales\Model\Order $order)
-    { //TODO: check it, customization dogma
+    {
         $shippingMethod = $order->getShippingMethod();
 
         foreach ($this->carriers as $carrier) {
@@ -44,5 +44,10 @@ class CarrierList
         }
 
         return null;
+    }
+
+    public function getCarriers()
+    {
+        return $this->carriers;
     }
 }

@@ -26,7 +26,7 @@ class Url extends \Magento\Ui\Component\Listing\Columns\Column
     protected function renderColumnHtml($url)
     {
         return sprintf(
-            '<a href="%s">%s</a>',
+            '<a href="%s" target="_blank">%s</a>',
             $url,
             __('View')
         );

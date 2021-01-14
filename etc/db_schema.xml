@@ -1,11 +1,13 @@
 <?xml version="1.0"?>
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
     <table name="sales_order" resource="default" engine="innodb">
+        <column xsi:type="smallint" name="number_of_packages" padding="5" unsigned="true" nullable="true"/>
         <column xsi:type="smallint" name="shipcloud_status" padding="5" unsigned="true" nullable="false"/>
         <index referenceId="SALES_ORDER_SHIPCLOUD_STATUS" indexType="btree">
             <column name="shipcloud_status"/>
         </index>
     </table>
+
     <table name="shipcloud_shipment" resource="default" engine="innodb">
         <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
         <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Order ID"/>
@@ -23,6 +25,7 @@
         </constraint>
         <constraint xsi:type="foreign" referenceId="SHIPCLOUD_SHIPMENT_ORDER_ID_SALES_ORDER_ENTITY_ID" table="shipcloud_shipment" column="order_id" referenceTable="sales_order" referenceColumn="entity_id" onDelete="CASCADE"/>
     </table>
+
     <table name="shipcloud_order" resource="default" engine="innodb">
         <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Order ID"/>
         <column xsi:type="smallint" name="retry_count" padding="5" unsigned="true" nullable="false"/>

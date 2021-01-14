@@ -84,14 +84,19 @@ class OrderShipmentGenerator
         $this->logger = $logger;
     }
 
-    public function execute()
+    public function execute($orderId = null)
     {
         $collection = $this->orderCollectionFactory->create()
             ->addAttributeToFilter('number_of_packages', ['gt' => 0])
-            ->addAttributeToFilter('is_exported_to_erp', 1)
-            ->addAttributeToFilter('shipcloud_status', self::STATUS_PENDING)
+            //->addAttributeToFilter('shipcloud_status', self::STATUS_PENDING) //TODO: UNCOMMENT IT
             ->setPageSize(500);
+
+        if ($orderId) {
+            $collection->addAttributeToFilter('entity_id', $orderId);
+        }
+
         $this->shipcloudOrderResource->addRetryCountLimit($collection);
+
         $lastPage = $collection->getSize();
         $page = 1;
 
