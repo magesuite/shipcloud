@@ -88,7 +88,7 @@ class OrderShipmentGenerator
     {
         $collection = $this->orderCollectionFactory->create()
             ->addAttributeToFilter('number_of_packages', ['gt' => 0])
-            //->addAttributeToFilter('shipcloud_status', self::STATUS_PENDING) //TODO: UNCOMMENT IT
+            ->addAttributeToFilter('shipcloud_status', self::STATUS_PENDING)
             ->setPageSize(500);
 
         if ($orderId) {

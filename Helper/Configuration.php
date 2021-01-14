@@ -14,7 +14,7 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper
     const XML_CONFIG_PATH_PACKAGE_LENGTH = 'shipcloud/package/length';
     const XML_CONFIG_PATH_PACKAGE_WIDTH = 'shipcloud/package/width';
     const XML_CONFIG_PATH_PACKAGE_HEIGHT = 'shipcloud/package/height';
-    const XML_CONFIG_PATH_MAXIMUM_PACKAGE_WEIGHT = 'custom_attributes_configuration/general/maximum_package_weight';
+    const XML_CONFIG_PATH_MAXIMUM_PACKAGE_WEIGHT = 'shipcloud/package/maximum_package_weight';
     const XML_CONFIG_PATH_SHIPCLOUD_NOTIFICATION_NAME = 'trans_email/shipcloud_email/name';
     const XML_CONFIG_PATH_SHIPCLOUD_NOTIFICATION_EMAIL = 'trans_email/shipcloud_email/email';
     const XML_CONFIG_PATH_GENERAL_IDENT_EMAIL = 'trans_email/ident_general/email';

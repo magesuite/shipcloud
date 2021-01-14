@@ -111,6 +111,10 @@
                     <label>Height</label>
                     <comment>In centimeters [cm]</comment>
                 </field>
+                <field id="maximum_package_weight" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Maximum package weight</label>
+                    <comment>In grams [g]</comment>
+                </field>
             </group>
         </section>
     </system>

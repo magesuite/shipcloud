@@ -68,7 +68,7 @@ class Order
                 'email' => (string)$order->getCustomerEmail()
             ],
             'package' => [
-                'weight' => 2, //($this->configuration->getMaximumPackageWeight()/1000), TODO: uncomment
+                'weight' => ($this->configuration->getMaximumPackageWeight()/1000),
                 'length' => $this->configuration->getPackageLength(),
                 'width' => $this->configuration->getPackageWidth(),
                 'height' => $this->configuration->getPackageHeight(),
