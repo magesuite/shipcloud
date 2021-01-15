@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="sales_order" resource="default" engine="innodb">
+        <column xsi:type="smallint" name="number_of_packages" padding="5" unsigned="true" nullable="true"/>
+        <column xsi:type="smallint" name="shipcloud_status" padding="5" unsigned="true" nullable="false"/>
+        <index referenceId="SALES_ORDER_SHIPCLOUD_STATUS" indexType="btree">
+            <column name="shipcloud_status"/>
+        </index>
+    </table>
+
+    <table name="shipcloud_shipment" resource="default" engine="innodb">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Order ID"/>
+        <column xsi:type="varchar" name="shipcloud_id" nullable="true" length="255" comment="Shipcloud ID"/>
+        <column xsi:type="varchar" name="carrier_tracking_no" nullable="true" length="255" comment="Carrier Tracking Number"/>
+        <column xsi:type="varchar" name="tracking_url" nullable="true" length="255" comment="Tracking Url"/>
+        <column xsi:type="varchar" name="label_url" nullable="true" length="255" comment="Label Url"/>
+        <column xsi:type="decimal" name="price" scale="4" precision="20" unsigned="false" nullable="true" comment="Price"/>
+        <column xsi:type="varchar" name="label_filename" nullable="true" length="255" comment="Label Filename"/>
+        <column xsi:type="smallint" name="package_number" padding="5" unsigned="true" nullable="true"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="SHIPCLOUD_SHIPMENT_ORDER_ID_SALES_ORDER_ENTITY_ID" table="shipcloud_shipment" column="order_id" referenceTable="sales_order" referenceColumn="entity_id" onDelete="CASCADE"/>
+    </table>
+
+    <table name="shipcloud_order" resource="default" engine="innodb">
+        <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Order ID"/>
+        <column xsi:type="smallint" name="retry_count" padding="5" unsigned="true" nullable="false"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="order_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="SHIPCLOUD_ORDER_ORDER_ID_SALES_ORDER_ENTITY_ID" table="shipcloud_order" column="order_id" referenceTable="sales_order" referenceColumn="entity_id" onDelete="CASCADE"/>
+    </table>
+</schema>

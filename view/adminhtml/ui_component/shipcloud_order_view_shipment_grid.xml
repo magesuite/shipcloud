@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">shipcloud_order_view_shipment_grid.shipcloud_order_view_shipment_grid_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>shipcloud_order_shipment_columns</spinner>
+        <deps>
+            <dep>shipcloud_order_view_shipment_grid.shipcloud_order_view_shipment_grid_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="shipcloud_order_view_shipment_grid_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <filterUrlParams>
+                <param name="order_id">*</param>
+            </filterUrlParams>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="shipcloud_order_view_shipment_grid_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <columns name="shipcloud_order_shipment_columns">
+        <column name="label_url" class="MageSuite\Shipcloud\Ui\Component\Listing\Columns\Url">
+            <settings>
+                <label translate="true">Shipping Label</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <filter>text</filter>
+            </settings>
+        </column>
+        <column name="carrier_tracking_no">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Tracking Number</label>
+            </settings>
+        </column>
+        <column name="tracking_url" class="MageSuite\Shipcloud\Ui\Component\Listing\Columns\Url">
+            <settings>
+                <label translate="true">Tracking</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <filter>text</filter>
+            </settings>
+        </column>
+        <column name="package_number">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Package Number</label>
+            </settings>
+        </column>
+        <column name="shipcloud_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Shipcloud ID</label>
+            </settings>
+        </column>
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Creation Date</label>
+            </settings>
+        </column>
+    </columns>
+</listing>
