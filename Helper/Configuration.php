@@ -115,7 +115,7 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper
     {
         if (!$this->originAddressConfig) {
             $this->originAddressConfig = new \Magento\Framework\DataObject(
-                $this->scopeConfig->getValue(self::XML_CONFIG_PATH_ORIGIN_ADDRESS)
+                $this->scopeConfig->getValue(self::XML_CONFIG_PATH_ORIGIN_ADDRESS) ?? []
             );
         }
 
