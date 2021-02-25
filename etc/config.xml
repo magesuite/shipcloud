@@ -5,11 +5,15 @@
             <general>
                 <enabled>0</enabled>
                 <cron_schedule>*/10 * * * *</cron_schedule>
+                <store_shipping_label>1</store_shipping_label>
                 <export_path>var/out/print</export_path>
                 <debug>0</debug>
                 <retry_limit>5</retry_limit>
                 <label_format>pdf_a6</label_format>
             </general>
+            <package>
+                <description>Goods</description>
+            </package>
         </shipcloud>
     </default>
 </config>

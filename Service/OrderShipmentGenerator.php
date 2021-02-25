@@ -60,6 +60,11 @@ class OrderShipmentGenerator
      */
     protected $logger;
 
+    /**
+     * @var \MageSuite\Shipcloud\Helper\Configuration
+     */
+    protected $configuration;
+
     public function __construct(
         \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Sales\Model\ResourceModel\Order $orderResourceModel,
@@ -70,7 +75,8 @@ class OrderShipmentGenerator
         \MageSuite\Shipcloud\Service\TrackingNumberProcessor $trackingNumberProcessor,
         \MageSuite\Shipcloud\Model\ResourceModel\Order $shipcloudOrderResource,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Psr\Log\LoggerInterface $logger
+        \Psr\Log\LoggerInterface $logger,
+        \MageSuite\Shipcloud\Helper\Configuration $configuration
     ) {
         $this->orderCollectionFactory = $orderCollectionFactory;
         $this->orderResourceModel = $orderResourceModel;
@@ -82,6 +88,7 @@ class OrderShipmentGenerator
         $this->shipcloudOrderResource = $shipcloudOrderResource;
         $this->eventManager = $eventManager;
         $this->logger = $logger;
+        $this->configuration = $configuration;
     }
 
     public function execute($orderId = null)
@@ -133,6 +140,7 @@ class OrderShipmentGenerator
     public function processOrder(\Magento\Sales\Model\Order $order)
     {
         $numOfPackages = $this->getNumberOfPackages($order);
+        $shouldStoreShippingLabel = $this->configuration->shouldStoreShippingLabel();
 
         try {
             for ($numStart = 0; $numStart < $numOfPackages; $numStart++) {
@@ -151,7 +159,10 @@ class OrderShipmentGenerator
                 $this->shipmentResourceModel->save($shipment);
             }
 
-            $this->shippingLabelGenerator->execute($order);
+            if ($shouldStoreShippingLabel) {
+                $this->shippingLabelGenerator->execute($order);
+            }
+
             $this->trackingNumberProcessor->execute($order);
             $order->setData('shipcloud_status', self::STATUS_GENERATED);
             $this->addOrderComment($order, __('Shipment has been created.'));

@@ -81,7 +81,8 @@ class Order
             'service' => $carrier->getService(),
             'reference_number' => $order->getIncrementId(),
             'notification_email' => $order->getCustomerEmail(),
-            'create_shipping_label' => true
+            'create_shipping_label' => true,
+            'description' => $this->configuration->getPackageDescription()
         ];
         $paramsObj = new \Magento\Framework\DataObject($params);
         $this->eventManager->dispatch(

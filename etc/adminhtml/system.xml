@@ -37,24 +37,28 @@
                     <frontend_model>MageSuite\Shipcloud\Block\Adminhtml\Config\System\Form\Field\ApiKey</frontend_model>
                     <backend_model>MageSuite\Shipcloud\Model\Config\Backend\ApiKey</backend_model>
                 </field>
-                <field id="export_path" translate="label" type="text" sortOrder="23" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="store_shipping_label" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Store Shipping Labels</label>
+                    <source_model>\Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="export_path" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Export Path</label>
                     <comment><![CDATA[Direct path to export folder. No slash on the end. Example: /var/export.]]></comment>
                 </field>
-                <field id="cron_schedule" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="cron_schedule" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Cron Schedule</label>
                     <comment>Please type full cron schedule expression, eg. '59 23 * * *'</comment>
                 </field>
-                <field id="debug" translate="label" sortOrder="30" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="debug" translate="label" sortOrder="60" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Debug</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="retry_limit" translate="label" sortOrder="40" type="text" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="retry_limit" translate="label" sortOrder="70" type="text" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Retry Limit for Order</label>
                     <validate>validate-zero-or-greater validate-digits</validate>
                     <comment>Processing orders X times again after receiving 5xx error from API.</comment>
                 </field>
-                <field id="label_format" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="label_format" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Label Format</label>
                     <source_model>MageSuite\Shipcloud\Model\Config\Source\LabelFormat</source_model>
                 </field>
@@ -98,7 +102,10 @@
                 </field>
             </group>
             <group id="package" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
-                <label>Package Dimensions</label>
+                <label>Package Details</label>
+                <field id="description" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Description</label>
+                </field>
                 <field id="length" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Length</label>
                     <comment>In centimeters [cm]</comment>
