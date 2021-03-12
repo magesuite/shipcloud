@@ -5,9 +5,9 @@ namespace MageSuite\Shipcloud\Service;
 class TrackingNumberProcessor
 {
     /**
-     * @var \Magento\Sales\Model\Convert\OrderFactory
+     * @var \Magento\Sales\Model\Order\ShipmentFactory
      */
-    protected $convertOrderFactory;
+    protected $shipmentFactory;
 
     /**
      * @var \Magento\Sales\Model\Order\Shipment\TrackFactory
@@ -30,13 +30,13 @@ class TrackingNumberProcessor
     protected $collectionFactory;
 
     public function __construct(
-        \Magento\Sales\Model\Convert\OrderFactory $convertOrderFactory,
+        \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory,
         \Magento\Sales\Model\Order\Shipment\TrackFactory $trackingFactory,
         \Magento\Sales\Model\Order\ShipmentRepository $shipmentRepository,
         \MageSuite\Shipcloud\Model\CarrierList $carrierList,
         \MageSuite\Shipcloud\Model\ResourceModel\Shipment\CollectionFactory $collectionFactory
     ) {
-        $this->convertOrderFactory = $convertOrderFactory;
+        $this->shipmentFactory = $shipmentFactory;
         $this->trackingFactory = $trackingFactory;
         $this->shipmentRepository = $shipmentRepository;
         $this->carrierList = $carrierList;
@@ -97,19 +97,17 @@ class TrackingNumberProcessor
 
     protected function createShipment(\Magento\Sales\Model\Order $order)
     {
-        $convertOrder = $this->convertOrderFactory->create();
-        $shipment = $convertOrder->toShipment($order);
+        $items = [];
 
         foreach ($order->getAllItems() as $orderItem) {
             if (!$orderItem->getQtyToShip() || $orderItem->getIsVirtual()) {
                 continue;
             }
 
-            $qtyShipped = $orderItem->getQtyToShip();
-            $shipmentItem = $convertOrder->itemToShipmentItem($orderItem)->setQty($qtyShipped);
-            $shipment->addItem($shipmentItem);
+            $items[$orderItem->getId()] = $orderItem->getQtyToShip();
         }
 
+        $shipment = $this->shipmentFactory->create($order, $items);
         $shipment->register();
         $shipment->getOrder()->setIsInProcess(true);
         $shipment->save();
