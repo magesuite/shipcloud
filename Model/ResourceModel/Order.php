@@ -64,32 +64,21 @@ class Order extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     }
 
     /**
-     * Add retry count limit to order collection
-     * Also applied one hour gap between another tries
+     * Retrieve order IDs that retry limit count has been reached
+     * Also applied one hour gap between another try
      *
-     * @param \Magento\Sales\Model\ResourceModel\Order\Collection $collection
-     * @return \Magento\Sales\Model\ResourceModel\Order\Collection
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return array
      */
-    public function addRetryCountLimit(\Magento\Sales\Model\ResourceModel\Order\Collection $collection)
+    public function getForbiddenOrderIds()
     {
         $limit = $this->configuration->getRetryLimit();
         $date = date('Y-m-d H:i:s', strtotime('-1 hour'));
-        $condArray = [
-            $this->getConnection()->quoteInto('so.retry_count < ?', $limit),
-            $this->getConnection()->quoteInto('so.updated_at <= ?', $this->dateTime->formatDate($date))
-        ];
-        $conditions = '(' . implode(' AND ', $condArray) . ')';
-        $collection->getSelect(
-            )->joinLeft(
-                ['so' => $this->getMainTable()],
-                'so.order_id = main_table.entity_id',
-                []
-            )->where(
-                'so.retry_count IS NULL'
-            )->orWhere($conditions);
+        $select = $this->getConnection()->select()
+            ->from($this->getMainTable(), 'order_id')
+            ->where('retry_count > ?', $limit)
+            ->orWhere('updated_at >= ?', $this->dateTime->formatDate($date));
 
-        return $collection;
+        return $this->getConnection()->fetchCol($select);
     }
 
     public function isRetryLimitReached(\Magento\Sales\Model\Order $order)
