@@ -94,15 +94,19 @@ class OrderShipmentGenerator
     public function execute($orderId = null)
     {
         $collection = $this->orderCollectionFactory->create()
-            ->addAttributeToFilter('number_of_packages', ['gt' => 0])
-            ->addAttributeToFilter('shipcloud_status', self::STATUS_PENDING)
+            ->addAttributeToFilter('main_table.number_of_packages', ['gt' => 0])
+            ->addAttributeToFilter('main_table.shipcloud_status', self::STATUS_PENDING)
             ->setPageSize(500);
 
         if ($orderId) {
-            $collection->addAttributeToFilter('entity_id', $orderId);
+            $collection->addAttributeToFilter('main_table.entity_id', $orderId);
         }
 
-        $this->shipcloudOrderResource->addRetryCountLimit($collection);
+        $forbiddenOrderIds = $this->shipcloudOrderResource->getForbiddenOrderIds();
+
+        if (!empty($forbiddenOrderIds)) {
+            $collection->addAttributeToFilter('main_table.entity_id', ['nin' => $forbiddenOrderIds]);
+        }
 
         $lastPage = $collection->getSize();
         $page = 1;
