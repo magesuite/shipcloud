@@ -20,6 +20,11 @@ class TrackingNumberProcessor
     protected $shipmentRepository;
 
     /**
+     * @var \Magento\Shipping\Model\ShipmentNotifier
+     */
+    protected $notifier;
+
+    /**
      * @var \MageSuite\Shipcloud\Model\CarrierList
      */
     protected $carrierList;
@@ -29,18 +34,27 @@ class TrackingNumberProcessor
      */
     protected $collectionFactory;
 
+    /**
+     * @var \MageSuite\Shipcloud\Helper\Configuration
+     */
+    protected $configuration;
+
     public function __construct(
         \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory,
         \Magento\Sales\Model\Order\Shipment\TrackFactory $trackingFactory,
         \Magento\Sales\Model\Order\ShipmentRepository $shipmentRepository,
+        \Magento\Shipping\Model\ShipmentNotifier $notifier,
         \MageSuite\Shipcloud\Model\CarrierList $carrierList,
-        \MageSuite\Shipcloud\Model\ResourceModel\Shipment\CollectionFactory $collectionFactory
+        \MageSuite\Shipcloud\Model\ResourceModel\Shipment\CollectionFactory $collectionFactory,
+        \MageSuite\Shipcloud\Helper\Configuration $configuration
     ) {
         $this->shipmentFactory = $shipmentFactory;
         $this->trackingFactory = $trackingFactory;
         $this->shipmentRepository = $shipmentRepository;
+        $this->notifier = $notifier;
         $this->carrierList = $carrierList;
         $this->collectionFactory = $collectionFactory;
+        $this->configuration = $configuration;
     }
 
     public function execute(\Magento\Sales\Model\Order $order)
@@ -91,6 +105,10 @@ class TrackingNumberProcessor
 
         $shipment->addTrack($tracking);
         $this->shipmentRepository->save($shipment);
+
+        if ($this->configuration->getSendShipmentEmailFlag()) {
+            $this->notifier->notify($shipment);
+        }
 
         return $shipment;
     }

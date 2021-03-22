@@ -10,6 +10,7 @@
                 <debug>0</debug>
                 <retry_limit>5</retry_limit>
                 <label_format>pdf_a6</label_format>
+                <send_shipment_email>0</send_shipment_email>
             </general>
             <package>
                 <description>Goods</description>
