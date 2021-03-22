@@ -11,6 +11,7 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper
     const XML_CONFIG_PATH_DEBUG = 'shipcloud/general/debug';
     const XML_CONFIG_PATH_RETRY_LIMIT = 'shipcloud/general/retry_limit';
     const XML_CONFIG_PATH_LABEL_FORMAT = 'shipcloud/general/label_format';
+    const XML_CONFIG_PATH_SEND_SHIPMENT_EMAIL = 'shipcloud/general/send_shipment_email';
     const XML_CONFIG_PATH_ORIGIN_ADDRESS = 'shipcloud/origin_address';
     const XML_CONFIG_PATH_PACKAGE_DESCRIPTION = 'shipcloud/package/description';
     const XML_CONFIG_PATH_PACKAGE_LENGTH = 'shipcloud/package/length';
@@ -85,6 +86,14 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper
     public function getLabelFormat()
     {
         return (string)$this->scopeConfig->getValue(self::XML_CONFIG_PATH_LABEL_FORMAT);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getSendShipmentEmailFlag()
+    {
+        return $this->scopeConfig->isSetFlag(self::XML_CONFIG_PATH_SEND_SHIPMENT_EMAIL);
     }
 
     /**

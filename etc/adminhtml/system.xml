@@ -62,6 +62,10 @@
                     <label>Label Format</label>
                     <source_model>MageSuite\Shipcloud\Model\Config\Source\LabelFormat</source_model>
                 </field>
+                <field id="send_shipment_email" translate="label" sortOrder="60" type="select" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Send shipment email confirmation</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
             </group>
             <group id="origin_address" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Origin Address</label>
