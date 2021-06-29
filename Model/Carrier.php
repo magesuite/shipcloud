@@ -19,11 +19,17 @@ class Carrier
      */
     protected $service;
 
-    public function __construct($code, $name, $service)
+    /**
+     * @var string
+     */
+    protected $additionalServices;
+
+    public function __construct($code, $name, $service, $additionalServices = null)
     {
         $this->code = $code;
         $this->name = $name;
         $this->service = $service;
+        $this->additionalServices = $additionalServices;
     }
 
     /**
@@ -48,5 +54,25 @@ class Carrier
     public function getService()
     {
         return $this->service;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAdditionalServices()
+    {
+        if (empty($this->additionalServices)) {
+            return [];
+        }
+
+        $result = [];
+
+        foreach (explode(',', $this->additionalServices) as $additionalService) {
+            $result[] = [
+                'name' => trim($additionalService)
+            ];
+        }
+
+        return $result;
     }
 }

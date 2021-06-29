@@ -79,6 +79,7 @@ class Order
             ],
             'carrier' => $carrier->getName(),
             'service' => $carrier->getService(),
+            'additional_services' => $carrier->getAdditionalServices(),
             'reference_number' => $order->getIncrementId(),
             'notification_email' => $order->getCustomerEmail(),
             'create_shipping_label' => true,

@@ -23,6 +23,7 @@ class CarrierList
                 'code' => $carrier['code'],
                 'name' => $carrier['name'],
                 'service' => $carrier['service'],
+                'additionalServices' => $carrier['additional_services'] ?? null
             ]);
         }
     }
