@@ -54,7 +54,7 @@ abstract class AbstractClient
      * @throws \MageSuite\Shipcloud\Exception\UnprocessableEntityException
      * @see https://developers.shipcloud.io/concepts/
      */
-    protected function call(string $endpoint, $params = [])
+    public function call(string $endpoint, $params = [])
     {
         $curl = $this->curlFactory->create();
         $curl->addHeader('Content-Type', 'application/json');
