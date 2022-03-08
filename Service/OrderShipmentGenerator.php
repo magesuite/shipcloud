@@ -125,7 +125,7 @@ class OrderShipmentGenerator
                 ) {
                     $this->logger->error($e->getMessage());
                     $this->dispatchEvent(self::ERROR_NOTIFICATION_EVENT_NAME, $order->getId(), $e->getMessage());
-                    throw new $e;
+                    throw $e;
                 } catch (\MageSuite\Shipcloud\Exception\ShipcloudException $e) {
                     $this->shipcloudOrderResource->incrementRetryCount($order);
                     $this->logger->error($e->getMessage());

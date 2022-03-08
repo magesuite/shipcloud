@@ -59,8 +59,10 @@ class TrackingNumberProcessor
 
     public function execute(\Magento\Sales\Model\Order $order)
     {
-        $shipcloudShipmentCollection = $this->collectionFactory->create()
-            ->addOrderFilter($order->getId());
+        $orderId = $order->getId();
+
+        $shipcloudShipmentCollection = $this->collectionFactory->create();
+        $shipcloudShipmentCollection->addOrderFilter($orderId);
 
         foreach ($shipcloudShipmentCollection as $shipcloudShipment) {
             if (!$shipcloudShipment->getLabelFilename()) {
@@ -83,11 +85,17 @@ class TrackingNumberProcessor
     ) {
         if ($order->hasShipments()) {
             $shipment = $order->getShipmentsCollection()->getFirstItem();
+
+            // reload from repository to fetch extension attributes that are not present in a collection
+            $shipmentId = $shipment->getData('entity_id');
+            $shipment = $this->shipmentRepository->get($shipmentId);
         } else {
             $shipment = $this->createShipment($order);
         }
 
-        foreach ($shipment->getAllTracks() as $track) {
+        $shipmentTracks = $shipment->getAllTracks();
+
+        foreach ($shipmentTracks as $track) {
             if ($track->getTrackNumber() == $shipcloudShipment->getCarrierTrackingNo()) {
                 return $shipment;
             }
