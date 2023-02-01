@@ -4,34 +4,22 @@ namespace MageSuite\Shipcloud\Model;
 
 class Shipment extends \Magento\Framework\Model\AbstractModel implements \MageSuite\Shipcloud\Api\Data\ShipmentInterface
 {
-    const CACHE_TAG = 'shipcloud_shipment';
+    public const CACHE_TAG = 'shipcloud_shipment';
 
     protected $_cacheTag = self::CACHE_TAG;
-
     protected $_eventPrefix = self::CACHE_TAG;
 
-    /**
-     * @var \Magento\Sales\Model\Order
-     */
-    protected $order;
-
-    /**
-     * @var \Magento\Sales\Model\OrderFactory
-     */
-    protected $orderFactory;
-
-    /**
-     * @var \MageSuite\Shipcloud\Helper\Configuration
-     */
-    protected $configuration;
+    protected \Magento\Sales\Model\Order $order;
+    protected \Magento\Sales\Model\OrderFactory $orderFactory;
+    protected \MageSuite\Shipcloud\Helper\Configuration $configuration;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \MageSuite\Shipcloud\Helper\Configuration $configuration,
+        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -170,7 +158,7 @@ class Shipment extends \Magento\Framework\Model\AbstractModel implements \MageSu
      */
     public function getOrder()
     {
-        if ($this->order === null) {
+        if (!isset($this->order)) {
             $this->order = $this->orderFactory->create();
 
             if ($this->getOrderId()) {
