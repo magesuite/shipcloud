@@ -44,7 +44,7 @@ class Order extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
                 'retry_count' => 1,
                 'updated_at' => $this->dateTime->formatDate(true)
             ],
-            ['retry_count' => new \Zend\Db\Sql\Expression('retry_count+1'), 'updated_at']
+            ['retry_count' => new \Laminas\Db\Sql\Expression('retry_count+1'), 'updated_at']
         );
 
         return $this;
