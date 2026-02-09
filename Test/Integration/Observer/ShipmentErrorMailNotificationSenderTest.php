@@ -78,17 +78,17 @@ class ShipmentErrorMailNotificationSenderTest extends \PHPUnit\Framework\TestCas
 
         $this->getShipmentStub = $this->getMockBuilder(\MageSuite\Shipcloud\Model\GetShipment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['execute'])
+            ->onlyMethods(['execute'])
             ->getMock();
 
         $this->curlStub = $this->getMockBuilder(\Magento\Framework\HTTP\Client\Curl::class)
             ->disableOriginalConstructor()
-            ->setMethods(['get', 'getStatus', 'getBody'])
+            ->onlyMethods(['get', 'getStatus', 'getBody'])
             ->getMock();
 
         $this->curlFactoryStub = $this->getMockBuilder(\Magento\Framework\HTTP\Client\CurlFactory::class)
             ->disableOriginalConstructor()
-            ->setMethods(['create'])
+            ->onlyMethods(['create'])
             ->getMock();
 
         $this->curlStub->expects($this->any())
@@ -105,7 +105,7 @@ class ShipmentErrorMailNotificationSenderTest extends \PHPUnit\Framework\TestCas
 
         $this->eventManagerStub = $this->getMockBuilder(\Magento\Framework\Event\ManagerInterface::class)
             ->disableOriginalConstructor()
-            ->setMethods(['dispatch'])
+            ->onlyMethods(['dispatch'])
             ->getMock();
 
         $this->shippingLabelGenerator = $this->objectManager->create(\MageSuite\Shipcloud\Service\ShippingLabelGenerator::class);
