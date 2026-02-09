@@ -90,22 +90,22 @@ class OrderShipmentGeneratorTest extends \PHPUnit\Framework\TestCase
 
         $this->getShipmentStub = $this->getMockBuilder(\MageSuite\Shipcloud\Model\GetShipment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['execute'])
+            ->onlyMethods(['execute'])
             ->getMock();
 
         $this->getShipmentSuccessStub = $this->getMockBuilder(\MageSuite\Shipcloud\Model\GetShipment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['execute'])
+            ->onlyMethods(['execute'])
             ->getMock();
 
         $this->curlStub = $this->getMockBuilder(\Magento\Framework\HTTP\Client\Curl::class)
             ->disableOriginalConstructor()
-            ->setMethods(['get', 'getStatus', 'getBody'])
+            ->onlyMethods(['get', 'getStatus', 'getBody'])
             ->getMock();
 
         $this->curlFactoryStub = $this->getMockBuilder(\Magento\Framework\HTTP\Client\CurlFactory::class)
             ->disableOriginalConstructor()
-            ->setMethods(['create'])
+            ->onlyMethods(['create'])
             ->getMock();
 
         $this->curlStub->expects($this->any())
